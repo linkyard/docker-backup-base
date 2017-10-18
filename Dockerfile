@@ -41,3 +41,7 @@ RUN curl -L https://github.com/Azure/blobporter/releases/download/v0.5.04/bp_lin
     mv /tmp/linux_amd64/blobporter /usr/local/bin/blobporter && \
     rm -rf /tmp/* && \
     chmod a+x /usr/local/bin/blobporter
+
+
+# Source this file to abstract away the differences between the providers
+COPY storage.sh /opt/storage.sh
