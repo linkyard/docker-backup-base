@@ -10,7 +10,6 @@ set -o pipefail
 
 
 if [ "$PROVIDER" == "azure" ]; then
-  SCHEMA="azure://"
   export ACCOUNT_NAME=`cat /etc/azure/accountName`
   export ACCOUNT_KEY=`cat /etc/azure/accountKey`
   #for duplicity
@@ -20,8 +19,16 @@ if [ "$PROVIDER" == "azure" ]; then
   # Parameters: <container> <file>
   function uploadBlob {
     cat > "$TMPDIR/upload"
-    cat | blobporter -t file-blockblob -c $1 -n $2 -f "$TMPDIR/upload"
+    cat | blobporter -t file-blockblob -c "$1" -n "$2" -f "$TMPDIR/upload"
     rm "$TMPDIR/upload"
+  }
+
+  # Parameters: <container> <file> <target file>
+  function downloadBlob {
+    pushd "$TMPDIR"
+    blobporter -e -t blob-file -c "$1" -n "$2" -f "$3"
+    mv "$TMPDIR/$2" $3
+    popd
   }
 
   # Parameters: <container>
@@ -31,7 +38,6 @@ if [ "$PROVIDER" == "azure" ]; then
 
 #############################################################
 elif [ "$PROVIDER" == "openstack" ]; then
-  SCHEMA="swift://"
   export OS_AUTH_URL=`cat /etc/openstack/authUrl`
   export OS_PROJECT_ID=`cat /etc/openstack/projectId`
   export OS_PROJECT_NAME=`cat /etc/openstack/projectName`
@@ -50,6 +56,11 @@ elif [ "$PROVIDER" == "openstack" ]; then
   # Parameters: <container> <file>
   function uploadBlob {
     swift upload --object-name "$2" "$1" -
+  }
+
+  # Parameters: <container> <file> <target file>
+  function downloadBlob {
+    swift download "$1" "$2" -o "$3"
   }
 
   # Parameters: <container>
