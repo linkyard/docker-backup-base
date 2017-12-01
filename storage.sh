@@ -41,6 +41,8 @@ elif [ "$PROVIDER" == "openstack" ]; then
   export OS_AUTH_URL=`cat /etc/openstack/authUrl`
   export OS_PROJECT_ID=`cat /etc/openstack/projectId`
   export OS_PROJECT_NAME=`cat /etc/openstack/projectName`
+  export OS_TENANT_ID=`cat /etc/openstack/projectId`
+  export OS_TENANT_NAME=`cat /etc/openstack/projectName`
   export OS_REGION_NAME=`cat /etc/openstack/regionName`
   export OS_INTERFACE=`cat /etc/openstack/interface`
   export OS_IDENTITY_API_VERSION=`cat /etc/openstack/identityApiVersion`
