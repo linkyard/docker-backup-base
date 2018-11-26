@@ -36,7 +36,7 @@ RUN cd /tmp && \
     cd / && rm -rf /tmp/*
 
 # Azure blob porter
-RUN curl -L https://github.com/Azure/blobporter/releases/download/v0.5.04/bp_linux.tar.gz -o /tmp/blobporter.tar.gz && \
+RUN curl -L https://github.com/Azure/blobporter/releases/download/v0.6.15/bp_linux.tar.gz -o /tmp/blobporter.tar.gz && \
     tar -xf /tmp/blobporter.tar.gz -C /tmp linux_amd64/blobporter && \
     mv /tmp/linux_amd64/blobporter /usr/local/bin/blobporter && \
     rm -rf /tmp/* && \
