@@ -18,9 +18,12 @@ if [ "$PROVIDER" == "azure" ]; then
 
   # Parameters: <container> <file>
   function uploadBlob {
-    cat > "$TMPDIR/upload"
-    cat | blobporter -t file-blockblob -c "$1" -n "$2" -f "$TMPDIR/upload"
-    rm "$TMPDIR/upload"
+    # generate a filename that should be unique most of the time
+    # in case multiple uploads run in parallel
+    TMP_FILE="upload-$(date +%s)-${RANDOM}"
+    cat > "$TMPDIR/${TMP_FILE}"
+    cat | blobporter -t file-blockblob -c "$1" -n "$2" -f "$TMPDIR/${TMP_FILE}"
+    rm "$TMPDIR/${TMP_FILE}"
   }
 
   # Parameters: <container> <file> <target file>
